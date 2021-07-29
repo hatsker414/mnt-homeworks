@@ -3,7 +3,3 @@ elasticsearch:
   hosts:
     localhost:
       ansible_connection: local
-kibana:
-  host:
-    localhost:
-      ansible_connection: local      
