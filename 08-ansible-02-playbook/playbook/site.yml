@@ -5,20 +5,20 @@
     - name: Set facts for Java 11 vars
       set_fact:
         java_home: "/opt/jdk/{{ java_jdk_version }}"
-      tags: java
+      tags: java, skip_ansible_lint
     - name: Upload .tar.gz file containing binaries from local storage
       copy:
         src: "{{ java_oracle_jdk_package }}"
         dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
       register: download_java_binaries
       until: download_java_binaries is succeeded
-      tags: java
+      tags: java, skip_ansible_lint
     - name: Ensure installation dir exists
       become: true
       file:
         state: directory
         path: "{{ java_home }}"
-      tags: java
+      tags: java, skip_ansible_lint
     - name: Extract java in the installation directory
       become: true
       unarchive:
@@ -28,13 +28,13 @@
         extra_opts: [--strip-components=1]
         creates: "{{ java_home }}/bin/java"
       tags:
-        - java
+        - java, skip_ansible_lint
     - name: Export environment variables
       become: true
       template:
         src: jdk.sh.j2
         dest: /etc/profile.d/jdk.sh
-      tags: java
+      tags: java, skip_ansible_lint
 - name: Install Elasticsearch
   hosts: elasticsearch
   tasks:
@@ -42,7 +42,7 @@
       get_url:
         url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
-        mode: 0755
+        mode: 0644
         timeout: 60
         force: true
         validate_certs: false
@@ -53,7 +53,7 @@
       file:
         state: directory
         path: "{{ elastic_home }}"
-      tags: elastic
+      tags: elastic, skip_ansible_lint
     - name: Extract Elasticsearch in the installation directory
       become: true
       unarchive:
@@ -63,10 +63,34 @@
         extra_opts: [--strip-components=1]
         creates: "{{ elastic_home }}/bin/elasticsearch"
       tags:
-        - elastic
+        - elastic, skip_ansible_lint
     - name: Set environment Elastic
       become: true
       template:
         src: templates/elk.sh.j2
         dest: /etc/profile.d/elk.sh
-      tags: elastic
+      tags: elastic, skip_ansible_lint
+- name: Install Kibana
+  hosts: kibana
+  tasks:
+    - name: Upload tar.gz Kibana from remote URL
+      get_url:
+        url: "https://artifacts.elastic.co/downloads/kibana/kibana-7.13.4-linux-x86_64.tar.gz"
+        dest: "/tmp/kibana-7.13.4-linux-x86_64.tar.gz"
+        mode: 0644
+        timeout: 30
+        force: false        
+      tags: kibana, skip_ansible_lint
+    - name: Create directrory
+      file:
+        state: directory
+        path: "/usr/bin/kibana"
+      tags: kibana, skip_ansible_lint
+    - name: Extract Kibana
+      become: true
+      unarchive:
+        copy: false
+        src: "/tmp/kibana-7.13.4-linux-x86_64.tar.gz"
+        dest: "/usr/bin/kibana"
+      tags: kibana, skip_ansible_lint
+
