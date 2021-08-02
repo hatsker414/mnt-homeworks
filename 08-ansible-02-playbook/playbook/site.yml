@@ -79,13 +79,13 @@
         dest: "/tmp/kibana-7.13.4-linux-x86_64.tar.gz"
         mode: 0644
         timeout: 120
-        force: false        
-      tags: kibana, skip_ansible_lint
+        force: false
+      tags: kibana
     - name: Create directrory for kibana
       file:
         state: directory
         path:  "{{ kibana_home }}"
-      tags: kibana, skip_ansible_lint
+      tags: kibana 
     - name: Extract Kibana in the installation directory
       become: true
       unarchive:
@@ -95,10 +95,10 @@
         extra_opts: [--strip-components=1]
         creates: "{{ kibana_home }}/bin/kibana"
       tags:
-        - kibana, skip_ansible_lint
+        - kibana
     - name: Set environment Kibana
       become: true
       template:
         src: templates/kib.sh.j2
         dest: /etc/profile.d/kib.sh
-      tags: kibana, skip_ansible_lint
+      tags: kibana

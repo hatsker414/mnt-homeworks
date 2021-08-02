@@ -12,7 +12,7 @@
         mode: 0644
         timeout: 120
         force: false        
-      tags: kibana, skip_ansible_lint
+      tags: kibana
     - name: Create directrory for kibana
       file:
         state: directory
@@ -27,11 +27,11 @@
         extra_opts: [--strip-components=1]
         creates: "{{ kibana_home }}/bin/kibana"
       tags:
-        - kibana, skip_ansible_lint
+        - kibana 
     - name: Set environment Kibana
       become: true
       template:
         src: templates/kib.sh.j2
         dest: /etc/profile.d/kib.sh
-      tags: kibana, skip_ansible_lint
+      tags: kibana 
 ```
