@@ -8,7 +8,16 @@
 
 ## Основная часть
 1. Приготовьте свой собственный inventory файл `prod.yml`.
-  
+```---
+      elasticsearch:
+        hosts:
+          el:
+            ansible_connection: docker
+      kibana:
+        hosts:
+          kib:
+            ansible_connection: docker
+```
 
 
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
@@ -47,7 +56,6 @@
           dest: /etc/profile.d/kib.sh
         tags: kibana
 ```
-
 3. При создании tasks рекомендую использовать модули: `get_url`, `template`, `unarchive`, `file`.
 4. Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.
 5. Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.
