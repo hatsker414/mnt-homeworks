@@ -5,20 +5,20 @@
     - name: Set facts for Java 11 vars
       set_fact:
         java_home: "/opt/jdk/{{ java_jdk_version }}"
-      tags: java, skip_ansible_lint
+      tags: java
     - name: Upload .tar.gz file containing binaries from local storage
       copy:
         src: "{{ java_oracle_jdk_package }}"
         dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
       register: download_java_binaries
       until: download_java_binaries is succeeded
-      tags: java, skip_ansible_lint
+      tags: java
     - name: Ensure installation dir exists
       become: true
       file:
         state: directory
         path: "{{ java_home }}"
-      tags: java, skip_ansible_lint
+      tags: java
     - name: Extract java in the installation directory
       become: true
       unarchive:
@@ -28,13 +28,13 @@
         extra_opts: [--strip-components=1]
         creates: "{{ java_home }}/bin/java"
       tags:
-        - java, skip_ansible_lint
+        - java
     - name: Export environment variables
       become: true
       template:
         src: jdk.sh.j2
         dest: /etc/profile.d/jdk.sh
-      tags: java, skip_ansible_lint
+      tags: java
 - name: Install Elasticsearch
   hosts: elasticsearch
   tasks:
@@ -53,7 +53,7 @@
       file:
         state: directory
         path: "{{ elastic_home }}"
-      tags: elastic, skip_ansible_lint
+      tags: elastic
     - name: Extract Elasticsearch in the installation directory
       become: true
       unarchive:
@@ -63,15 +63,15 @@
         extra_opts: [--strip-components=1]
         creates: "{{ elastic_home }}/bin/elasticsearch"
       tags:
-        - elastic, skip_ansible_lint
+        - elastic
     - name: Set environment Elastic
       become: true
       template:
         src: templates/elk.sh.j2
         dest: /etc/profile.d/elk.sh
-      tags: elastic, skip_ansible_lint
+      tags: elastic
 - name: Install Kibana
-  hosts: elasticsearch
+  hosts: kibana
   tasks:
     - name: Upload tar.gz Kibana from remote URL
       get_url:
