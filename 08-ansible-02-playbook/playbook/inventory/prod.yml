@@ -1,9 +1,5 @@
 ---
-elasticsearch:
-  hosts:
-    localhost:
-      ansible_connection: local
-kibana:
+local:
   hosts:
     localhost:
       ansible_connection: local
