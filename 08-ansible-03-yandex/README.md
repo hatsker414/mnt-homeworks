@@ -115,8 +115,8 @@ ansible-playbook -i inventory/prod site.yml
       command:
         cmd: filebeat modules enable system
         chdir: /usr/share/filebeat/bin
-      register: filebeats_modules
-      changed_when: filebeats_modules.stdout != "Module system is alredy enabled"
+      register: filebeat_modules
+      changed_when: filebeat_modules.stdout != "Module system is alredy enabled"
 #    - name: Load Kibana dashboard
 #      become: true
 #      command:
