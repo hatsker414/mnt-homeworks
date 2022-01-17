@@ -85,7 +85,7 @@
     - name: Configure filebeat
       become: true
       template:
-        src: kibana.yml.j2
+        src: filebeat.yml.j2
         dest: /etc/filebeat/filebeat.yml
       notify: restart filebeat
       tags: filebeat
