@@ -30,7 +30,7 @@
       notify: restart Elasticsearch
       tags: elastic
 - name: Install Kibana
-  hosts: Kibana
+  hosts: kibana
   handlers:
     - name: restart Kibana
       become: true
@@ -60,7 +60,7 @@
       notify: restart Kibana
       tags: kibana
 - name: Install filebeat
-  hosts: Filebeat
+  hosts: filebeat
   handlers:
     - name: restart filebeat
       become: true
