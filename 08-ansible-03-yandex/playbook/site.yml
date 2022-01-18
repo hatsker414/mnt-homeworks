@@ -30,7 +30,7 @@
       notify: restart Elasticsearch
       tags: elastic
 - name: Install Kibana
-  hosts: Kibana
+  hosts: kibana
   handlers:
     - name: restart Kibana
       become: true
@@ -41,7 +41,7 @@
   tasks:
     - name: "Download Kibana rpm"
       get_url:
-        url: "https://artifacts.elastic.co/downloads/kibana-{{ elk_stack_version }}-x86_64.rpm"
+        url: "https://artifacts.elastic.co/downloads/kibana/kibana-{{ elk_stack_version }}-x86_64.rpm"
         dest: "/tmp/kibana-{{ elk_stack_version }}-x86_64.rpm"
       register: download_kibana
       until: download_kibana is succeeded
@@ -60,7 +60,7 @@
       notify: restart Kibana
       tags: kibana
 - name: Install filebeat
-  hosts: Filebeat
+  hosts: filebeat
   handlers:
     - name: restart filebeat
       become: true
@@ -71,7 +71,7 @@
   tasks:
     - name: "Download Filebeat rpm"
       get_url:
-        url: "https://artifacts.elastic.co/downloads/beats/filebeat-{{ elk_stack_version }}-x86_64.rpm"
+        url: "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ elk_stack_version }}-x86_64.rpm"
         dest: "/tmp/filebeat-{{ elk_stack_version }}-x86_64.rpm"
       register: download_filebeat
       until: download_filebeat is succeeded
@@ -85,17 +85,17 @@
     - name: Configure filebeat
       become: true
       template:
-        src: kibana.yml.j2
+        src: filebeat.yml.j2
         dest: /etc/filebeat/filebeat.yml
       notify: restart filebeat
       tags: filebeat
-    - name: Set filebeat systemwork
+    - name: Set filebeat system work
       become: true
       command:
         cmd: filebeat modules enable system
         chdir: /usr/share/filebeat/bin
-      register: filebeats_modules
-      changed_when: filebeats_modules.stdout != "Module system is alredy enabled"
+      register: filebeat_modules
+      changed_when: filebeat_modules.stdout != "Module system is alredy enabled"
 #    - name: Load Kibana dashboard
 #      become: true
 #      command:
