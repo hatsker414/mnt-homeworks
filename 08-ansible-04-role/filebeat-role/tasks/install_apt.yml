@@ -1,0 +1,7 @@
+---
+- name: Install filebeat
+  become: true
+  yum:
+    name: "/tmp/filebeat-{{ elk_stack_version }}-amd64.deb"
+    state: present
+  notify: restart Filebeat

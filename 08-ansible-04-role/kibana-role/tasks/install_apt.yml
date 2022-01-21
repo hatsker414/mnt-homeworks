@@ -1,0 +1,7 @@
+---
+- name: Install Kibana
+  become: true
+  yum:
+    name: "/tmp/kibana-{{ elk_stack_version }}-amd64.deb"
+    state: present
+  notify: restart Kibana

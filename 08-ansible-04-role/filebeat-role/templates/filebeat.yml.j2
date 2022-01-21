@@ -1,0 +1,8 @@
+output.elasticsearch:
+  hosts: ["http://{{ hostvars['el-instance']['ansible_facts']['default_ipv4']['address'] }}:9200"]
+setup.kibana
+  hosts: ["http://{{ hostvars['kib-instance']['ansible_facts']['default_ipv4']['address'] }}:5601"]
+filebeat.config.modules:
+  enabled: true
+  path: ${path.config}/modules.d/*.yml
+
