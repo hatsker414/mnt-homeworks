@@ -12,19 +12,19 @@
       elasticsearch:
         hosts:
           el:
-            ansible_connection: local
+            ansible_connection: docker
       kibana:
         hosts:
           kib:
-            ansible_connection: local
+            ansible_connection: docker
 ```
 
+
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
-```
-- name: Install kibana
-  hosts: kibana
-  tasks:
-    - name: Upload tar.gz kibana from remote URL
+```- name: Install kibana
+    hosts: kibana
+    tasks:
+      - name: Upload tar.gz kibana from remote URL
         get_url:
           url: "https://artifacts.elastic.co/downloads/kibana/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
           dest: "/tmp/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
@@ -63,16 +63,6 @@
 7. Запустите playbook на `prod.yml` окружении с флагом `--diff`. Убедитесь, что изменения на системе произведены.
 8. Повторно запустите playbook с флагом `--diff` и убедитесь, что playbook идемпотентен.
 9. Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
-
-### Install Java
-установлены тэги java для дальнейшего использования и отладки установка переменных (facts) загрузка установочного пакета создние рабочего каталога распаковка пакета создание по шаблону переменных окружений (templates)
-
-### Install Elastic
-установлены тэги elastic для дальнейшего использования и отладки загрузка установочного пакета создание рабочего каталога распаковка в рабочий каталог из пакета создание по шаблону переменных окружений (templates)
-
-### Install Kibana
-установлены тэги kibana для дальнейшего использования и отладки загрузка установочного пакета создание рабочего каталога распаковка в рабочий каталог из пакета создание по шаблону переменных окружений (templates)
- 
 10. Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.
 
 ## Необязательная часть
