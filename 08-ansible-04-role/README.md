@@ -32,6 +32,26 @@ ansible-galaxy install -r requirements.yml -p roles
 12. Переработайте playbook на использование roles.
 13. Выложите playbook в репозиторий.
 14. В ответ приведите ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook.
+```
+---
+  - src: git@github.com:hatsker414/elastic-role.git
+    scm: git
+    version: "1.0.0"
+    name: elastic-role
+  - src: git@github.com:hatsker414/kibana-role.git
+    scm: git
+    version: "1.0.0"
+    name: kibana-role
+  - src: git@github.com:hatsker414/filebeat-role.git
+    scm: git
+    version: "1.0.0"
+    name: filebeat-role
+```
+[filebeat role](https://github.com/hatsker414/filebeat-role)
+
+[elastic role](https://github.com/hatsker414/elastic-role)
+
+[kibana role](https://github.com/hatsker414/kibana-role)
 
 ## Необязательная часть
 
